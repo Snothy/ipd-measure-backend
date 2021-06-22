@@ -1,0 +1,26 @@
+{
+  "name": "dissertation_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js",
+    "lint": "eslint '**/*.js' || true"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.coventry.ac.uk/drumevp/Dissertation_Backend.git"
+  },
+  "author": "Petar Drumev",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^10.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.29.0",
+    "eslint-plugin-react": "^7.24.0"
+  }
+}
