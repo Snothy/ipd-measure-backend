@@ -14,13 +14,27 @@ async function getAll(ctx) {
 }
 
 async function processImages(ctx) {
-    console.log(ctx.request);
-    //console.log(Object.keys(ctx.request.body));
-    console.log(ctx.request.files);
-    //const photo = ctx.request.body.photo;
-    //console.log(photo);
+    //console.log(ctx.request.body);
+    const body = ctx.request.body;
+    const eyeCoordinates = JSON.parse(body.eyeCoordinates);
+    const squareSize = JSON.parse(body.squareSize);
     
-    return ctx.body = {msg: "bye"};
+    //use size of square to determine distance from camera
+
+    const distanceFromObject = 185; //approx
+    const distObjRatio = distanceFromObject/squareSize.size;
+
+    //console.log(squareSize.size);
+    //ratio between the distance from the camera and the size of the square
+    const convertToMm = distObjRatio;
+
+    const realX = 300-squareSize.size;
+    const X1 = (eyeCoordinates.leftEye.x-realX)*convertToMm;
+    const X2 = (eyeCoordinates.rightEye.x-realX)*convertToMm;
+    //really poor estimate
+    const dist = (X1-X2);
+    //console.log(dist);
+    return ctx.body = {success: true, IPD: Math.round(dist)};
 }
 
 module.exports = router;
