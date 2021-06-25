@@ -4,10 +4,11 @@ const koaBody = require('koa-body')({multipart: true, uploadDir: './uploads'});
 
 
 
-const router = Router({ prefix: '/api/methodOne' });
+const router = Router({ prefix: '/api/methods' });
 
 router.get('/', getAll);
-router.post('/', koaBody, processImages);
+router.post('/methodOne', koaBody, processImages);
+router.post('/methodTwo', koaBody, processImagesTwo)
 
 async function getAll(ctx) {
     return ctx.body = {msg: "hi"};
@@ -18,8 +19,7 @@ async function processImages(ctx) {
     const body = ctx.request.body;
     const eyeCoordinates = JSON.parse(body.eyeCoordinates);
     const squareSize = JSON.parse(body.squareSize);
-    
-    //use size of square to determine distance from camera
+
 
     const distanceFromObject = 185; //approx
     const distObjRatio = distanceFromObject/squareSize.size;
@@ -35,6 +35,14 @@ async function processImages(ctx) {
     const dist = (X1-X2);
     //console.log(dist);
     return ctx.body = {success: true, IPD: Math.round(dist)};
+}
+
+async function processImagesTwo(ctx) {
+    const body = JSON.parse(ctx.request.body.QR);
+    console.log(body);
+    console.log((body.size));
+    console.log(ctx.request.files);
+    return ctx.body = {success: true, IPD: body.size};
 }
 
 module.exports = router;
