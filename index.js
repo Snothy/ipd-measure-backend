@@ -1,9 +1,9 @@
 const Koa = require('koa');
 const app = new Koa();
 
-const methodOne = require('./routes/methodOne.js');
+const IPDCalc = require('./routes/IPDCalc.js');
 
-app.use(methodOne.routes());
+app.use(IPDCalc.routes());
 
 const port = process.env.PORT || 3000;
 module.exports = app.listen(port);

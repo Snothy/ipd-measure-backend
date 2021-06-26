@@ -1,8 +1,7 @@
 const Router = require('koa-router');
 
 const koaBody = require('koa-body')({multipart: true, uploadDir: './uploads'});
-
-
+const model = require('../models/methodTwo');
 
 const router = Router({ prefix: '/api/methods' });
 
@@ -39,10 +38,11 @@ async function processImages(ctx) {
 
 async function processImagesTwo(ctx) {
     const body = JSON.parse(ctx.request.body.QR);
-    console.log(body);
-    console.log((body.size));
-    console.log(ctx.request.files);
-    return ctx.body = {success: true, IPD: body.size};
+    const IPD = model.calculateIPD(ctx.request.files.photo.path, body.size);
+    if(IPD.error !== null) {
+        return ctx.body = {success: false , IPD: IPD.error};
+    }
+    return ctx.body = {success: true, IPD: IPD.IPD};
 }
 
 module.exports = router;
